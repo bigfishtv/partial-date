@@ -1,3 +1,4 @@
+[![Latest Stable Version](https://poser.pugx.org/bigfishtv/partial-date/v/stable.png)](https://packagist.org/packages/bigfishtv/partial-date)
 [![Build Status](https://travis-ci.org/bigfishtv/partial-date.svg?branch=master)](https://travis-ci.org/bigfishtv/partial-date)
 
 # Partial Date
