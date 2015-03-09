@@ -1,0 +1,20 @@
+{
+    "name": "bigfishtv/partial-date",
+    "description": "A simple date parser and formatter for dealing with partial dates.",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Adam Royle",
+            "email": "adam@bigfish.tv"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "4.5.*"
+    },
+    "autoload": {
+        "psr-0": { "": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "": "tests/" }
+    }
+}
