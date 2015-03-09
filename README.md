@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/bigfishtv/partial-date.svg?branch=master)](https://travis-ci.org/bigfishtv/partial-date)
+
 # Partial Date
 
 A simple PHP date parser and formatter for dealing with partial dates. 
