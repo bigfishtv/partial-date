@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright 2015, Bigfish.tv
+ * @copyright 2021, Bigfish.tv
  * @license http://opensource.org/licenses/bsd-license.php
  */
 
@@ -12,29 +12,32 @@ namespace Bigfish;
  * @package Bigfish
  */
 
-class PartialDate {
-
+class PartialDate implements \JsonSerializable
+{
 	protected $year;
 	protected $month;
 	protected $day;
 
 	/**
 	 * Initialise a new partial date object.
-	 * @param String $dateString  A date string in a format PartialDate::parse() understands.
+	 * 
+	 * @param string $dateString  A date string in a format PartialDate::parse() understands.
 	 */
-	public function __construct($dateString = null) {
+	public function __construct($dateString = null)
+	{
 		$this->parse($dateString);
 	}
 
 	/**
 	 * Set a date manually into partial date object. This will clear all previous values.
 	 * 
-	 * @param  String $year  The year in 2 or 4 digits
-	 * @param  String $month The month 1 or 2 digits (optional)
-	 * @param  String $day   The day in 1 or 2 digits (optional)
-	 * @return Object        self
+	 * @param  string $year  The year in 2 or 4 digits
+	 * @param  string|null $month The month 1 or 2 digits (optional)
+	 * @param  string|null $day   The day in 1 or 2 digits (optional)
+	 * @return PartialDate        self
 	 */
-	public function setDate($year, $month = null, $day = null) {
+	public function setDate($year, $month = null, $day = null)
+	{
 		$this->year = strlen($year) < 4 ? substr(date('Y') - ($year - date('y') > 15 ? 100 : 0), 0, 2) . $year : $year;
 		$this->month = $month;
 		$this->day = $day;
@@ -46,11 +49,11 @@ class PartialDate {
 	 * 
 	 * Currently accepts YYYY-MM-DD, DD/MM/YYYY, MM/YYYY, YYYY.
 	 * 
-	 * @param  String $dateString The date string to be parsed
-	 * @return Object             self
+	 * @param  string $dateString The date string to be parsed
+	 * @return PartialDate             self
 	 */
-	public function parse($dateString) {
-
+	public function parse($dateString)
+	{
 		$dateString = trim($dateString);
 
 		// matches SQL format YYYY-MM-DD
@@ -79,7 +82,7 @@ class PartialDate {
 			$month = $matches[2];
 			$day = $matches[1];
 			$this->setDate($year, $month, $day);
-			return $this;			
+			return $this;
 		}
 
 		return $this;
@@ -88,22 +91,56 @@ class PartialDate {
 	/**
 	 * Format a partial date into Australian date format. DD/MM/YYYY, MM/YYYY, YYYY.
 	 * 
-	 * @return String The date in Aus date format
+	 * @return string|null The date in Aus date format
 	 */
-	public function toAusFormat() {
+	public function toAusFormat()
+	{
+		if ($this->isEmpty()) return null;
 		$date = sprintf('%s/%s/%s', str_pad($this->day, 2, '0', STR_PAD_LEFT), str_pad($this->month, 2, '0', STR_PAD_LEFT), $this->year);
 		$date = str_replace('00/', '', $date);
 		return $date;
 	}
 
 	/**
+	 * Is date empty?
+	 *
+	 * @return boolean
+	 */
+	public function isEmpty()
+	{
+		return !$this->day && !$this->month && !$this->year;
+	}
+
+	/**
 	 * Format a partial date into SQL Format. YYYY-MM-DD.
 	 * 
-	 * @return String The date in SQL date format
+	 * @return string|null The date in SQL date format
 	 */
-	public function toSQLFormat() {
+	public function toSQLFormat()
+	{
+		if ($this->isEmpty()) return null;
 		$date = sprintf('%s-%s-%s', $this->year, str_pad($this->month, 2, '0', STR_PAD_LEFT), str_pad($this->day, 2, '0', STR_PAD_LEFT));
 		return $date;
 	}
 
+	/**
+	 * @inheritDoc
+	 *
+	 * @return string|null
+	 */
+	public function jsonSerialize()
+	{
+		if ($this->isEmpty()) return null;
+		return (string) $this;
+	}
+
+	/**
+	 * Returns the date as Australian formatted string
+	 * 
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return $this->toAusFormat() ?: '';
+	}
 }
