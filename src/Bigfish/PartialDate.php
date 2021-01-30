@@ -28,19 +28,34 @@ class PartialDate implements \JsonSerializable
 		$this->parse($dateString);
 	}
 
+	public function getYear()
+	{
+		return $this->year;
+	}
+	
+	public function getMonth()
+	{
+		return $this->month;
+	}
+	
+	public function getDay()
+	{
+		return $this->day;
+	}
+
 	/**
 	 * Set a date manually into partial date object. This will clear all previous values.
 	 * 
 	 * @param  string $year  The year in 2 or 4 digits
-	 * @param  string|null $month The month 1 or 2 digits (optional)
-	 * @param  string|null $day   The day in 1 or 2 digits (optional)
+	 * @param  string|int|null $month The month 1 or 2 digits (optional)
+	 * @param  string|int|null $day   The day in 1 or 2 digits (optional)
 	 * @return PartialDate        self
 	 */
 	public function setDate($year, $month = null, $day = null)
 	{
-		$this->year = strlen($year) < 4 ? substr(date('Y') - ($year - date('y') > 15 ? 100 : 0), 0, 2) . $year : $year;
-		$this->month = $month;
-		$this->day = $day;
+		$this->year = intval(strlen($year) < 4 ? substr(date('Y') - ($year - date('y') > 15 ? 100 : 0), 0, 2) . $year : $year);
+		$this->month = intval($month) ?: null;
+		$this->day = intval($day) ?: null;
 		return $this;
 	}
 

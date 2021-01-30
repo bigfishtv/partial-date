@@ -81,6 +81,22 @@ class PartialDateTest extends TestCase
 		}
 	}
 
+	public function testGetters()
+	{
+		$date = new PartialDate();
+		$date->setDate('2020', '12', '04');
+
+		$this->assertEquals(2020, $date->getYear());
+		$this->assertEquals(12, $date->getMonth());
+		$this->assertEquals(4, $date->getDay());
+		
+		$date->setDate(2021);
+
+		$this->assertEquals(2021, $date->getYear());
+		$this->assertNull($date->getMonth());
+		$this->assertNull($date->getDay());
+	}
+
 	public function testParseInvalid()
 	{
 		$date = new PartialDate('not a date');
