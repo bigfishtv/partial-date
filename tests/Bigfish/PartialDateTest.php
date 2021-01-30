@@ -95,6 +95,10 @@ class PartialDateTest extends TestCase
 		$this->assertEquals(2021, $date->getYear());
 		$this->assertNull($date->getMonth());
 		$this->assertNull($date->getDay());
+
+		$date->setDate('0000');
+
+		$this->assertNull($date->getYear());
 	}
 
 	public function testParseInvalid()

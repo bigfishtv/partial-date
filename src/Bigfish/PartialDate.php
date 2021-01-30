@@ -53,7 +53,7 @@ class PartialDate implements \JsonSerializable
 	 */
 	public function setDate($year, $month = null, $day = null)
 	{
-		$this->year = intval(strlen($year) < 4 ? substr(date('Y') - ($year - date('y') > 15 ? 100 : 0), 0, 2) . $year : $year);
+		$this->year = intval(strlen($year) < 4 ? substr(date('Y') - ($year - date('y') > 15 ? 100 : 0), 0, 2) . $year : $year) ?: null;
 		$this->month = intval($month) ?: null;
 		$this->day = intval($day) ?: null;
 		return $this;
